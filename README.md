@@ -1,16 +1,26 @@
-# projeto_perguntas
+# Projeto Perguntas
 
-A new Flutter project.
+Projeto Perguntas é uma aplicação de quiz bem simples, aprendida durante um curso. Este projeto foi desenvolvido usando a linguagem Flutter.
 
-## Getting Started
+## Descrição
+Este projeto é uma aplicação de perguntas e respostas (quiz) que permite ao usuário responder a uma série de perguntas e receber um feedback imediato sobre suas respostas. A aplicação é simples e fácil de usar, ideal para iniciantes que estão aprendendo Flutter.
 
-This project is a starting point for a Flutter application.
+## Funcionalidades
+- Exibição de perguntas e múltiplas opções de resposta
+- Feedback imediato sobre a resposta correta ou incorreta
+- Contagem de pontos com base nas respostas corretas
 
-A few resources to get you started if this is your first Flutter project:
+## Tecnologias Utilizadas
+- [Flutter](https://flutter.dev/): Um framework de desenvolvimento de aplicativos móveis criado pelo Google.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Como Executar
+1. **Clone o repositório:**
+   ```sh
+   git clone https://github.com/rodrigodil/projeto-perguntas.git
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Navegue até o diretório do projeto:
+Instale as dependências:
+flutter pub get
+
+Execute o aplicativo:
+flutter run
