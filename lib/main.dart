@@ -1,31 +1,62 @@
 import 'package:flutter/material.dart';
-import './questao.dart';
-import './resposta.dart';
+import './questionario.dart';
+import './resultado.dart';
 
 void main() => runApp(const PerguntaApp());
 
 class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
+  var _pontuacaoTotal = 0;
 
-  final List<Map<String, Object>> _perguntas = [
+  final _perguntas = const [
     {
       'texto': 'Qual é a sua cor favorita?',
-      'respostas': ['Preto', 'Vermelho', 'Verde', 'Branco', 'Azul'],
-    },
+      'respostas': [
+        {'texto':'Preto', 'pontuacao': 10}, 
+        {'texto':'Vermelho', 'pontuacao': 7}, 
+        {'texto':'Verde', 'pontuacao': 5}, 
+        {'texto':'Branco', 'pontuacao': 3},
+        {'texto':'Azul', 'pontuacao': 1}
+        ],       
+      },
     {
       'texto': 'Qual é o seu animal favorito?',
-      'respostas': ['Coelho', 'Cobra', 'Elefante', 'Leão', 'Girafa'],
+      'respostas': [
+        {'texto':'Gato', 'pontuacao': 10}, 
+        {'texto':'Cachorro', 'pontuacao': 7}, 
+        {'texto':'Coelho', 'pontuacao': 5}, 
+        {'texto':'Cobra', 'pontuacao': 3},
+        {'texto':'Elefante', 'pontuacao': 1}
+        ],       
+        
+    },
+    {
+      'texto': 'Qual é o seu Heroi favorito?',
+      'respostas': [
+        {'texto':'Capitão America', 'pontuacao': 10}, 
+        {'texto':'Homem de Ferro', 'pontuacao': 7}, 
+        {'texto':'Thor', 'pontuacao': 5}, 
+        {'texto':'Hulk', 'pontuacao': 3},
+        {'texto':'Viúva Negra', 'pontuacao': 1}
+        ],
     },
     {
       'texto': 'Qual é o seu instrutor favorito?',
-      'respostas': ['Maria', 'João', 'Leo', 'Pedro', 'Rodrigo'],
+      'respostas': [
+        {'texto':'Maria', 'pontuacao': 10}, 
+        {'texto':'João', 'pontuacao': 7}, 
+        {'texto':'Leo', 'pontuacao': 5}, 
+        {'texto':'Pedro', 'pontuacao': 3},
+        {'texto':'Rodrigo', 'pontuacao': 1}
+        ],
     },
   ];
 
-  void _responder() {
+  void _responder(int pontuacao) {
     if (temPerguntaSelecionada) {
       setState(() {
         _perguntaSelecionada++;
+        _pontuacaoTotal += pontuacao;
       });
     }
   }
@@ -33,6 +64,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
   void _reiniciarQuestionario() {
     setState(() {
       _perguntaSelecionada = 0;
+      _pontuacaoTotal = 0;
     });
   }
 
@@ -42,36 +74,21 @@ class _PerguntaAppState extends State<PerguntaApp> {
 
   @override
   Widget build(BuildContext context) {
-    List<String>? respostas = temPerguntaSelecionada
-        ? _perguntas[_perguntaSelecionada]['respostas'] as List<String> : [];
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Center(
-            child: Text('Aplicativo de Perguntas'),
-          ),
+          title: const Text('Perguntas'),
         ),
-        body: temPerguntaSelecionada
-            ? Column(
-                children: [
-                  Questao(_perguntas[_perguntaSelecionada]['texto'] as String),
-                  ...respostas.map((t) => Resposta(t, _responder)).toList(),
-                ],
-              )
-            : Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Parabéns!', style: TextStyle(fontSize: 25)),
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: _reiniciarQuestionario,
-                      child: Text('Reiniciar Questionário'),
-                    ),
-                  ],
-                ),
-              ),
+            body: temPerguntaSelecionada
+                ? Questionario(
+                    perguntas: _perguntas,
+                    perguntaSelecionada: _perguntaSelecionada,
+                    quandoResponder: _responder,
+                  )
+                : Resultado(
+        pontuacao: _pontuacaoTotal,
+        quandoReiniciarQuestionario: _reiniciarQuestionario,
+      ),
       ),
     );
   }
@@ -83,5 +100,35 @@ class PerguntaApp extends StatefulWidget {
   @override
   _PerguntaAppState createState() {
     return _PerguntaAppState();
+  }
+}
+
+class Resultado extends StatelessWidget {
+  final int pontuacao;
+  final void Function() quandoReiniciarQuestionario;
+
+  const Resultado({super.key, required this.pontuacao, required this.quandoReiniciarQuestionario});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            'Parabéns!',
+            style: TextStyle(fontSize: 28),
+          ),
+          ElevatedButton(
+            onPressed: quandoReiniciarQuestionario,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue, // Background color
+              foregroundColor: Colors.white, // Text color
+            ),
+            child: const Text('Reiniciar Perguntas'),
+          ),
+        ],
+      ),
+    );
   }
 }
